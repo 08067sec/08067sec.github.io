@@ -22,7 +22,7 @@
     <meta name="description" content>
     <meta http-equiv="Cache-control" content="no-cache">
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
-    <title>逆向工程介绍 · SWPU_08067sec</title>
+    <title>逆向工程入门介绍 · SWPU_08067sec</title>
     <style type="text/css">
     @font-face {
         font-family: 'Oswald-Regular';
@@ -217,7 +217,7 @@
                 <a href="/" >SWPU_08067sec</a>
             </div>
             <div class="post-title">
-                <a href="#" class="post-name">逆向工程介绍</a>
+                <a href="#" class="post-name">逆向工程入门介绍</a>
             </div>
     </div>
     
@@ -247,7 +247,7 @@ height:50vh;
         <h1 class="intro-title">
             <!-- 主页  -->
             
-            逆向工程介绍
+            逆向工程入门介绍
             <!-- 404 -->
             
         </h1>
@@ -396,44 +396,44 @@ height:50vh;
             <main class="main post-page">
     <article class="article-entry">
         <p><strong>0x00.前言</strong></p>
-<p>什么是逆向工程？逆向工程主要针对软件方面，学习计算机的底层知识，通过反汇编、反编译和动态跟踪等方法，<br>分析出应用程序的实现过程，比如给你一个.exe的可执行文件，你想知道这个文件是否是一个病毒文件，<br>就要进行对这个文件进行逆向，分析出他的行为来判断是否是一个病毒文件。应用的主要方向：<br>软件破解、病毒分析、游戏漏洞分析、移动安全、二进制漏洞挖掘与利用。</p>
-<h3 id="概述"><a href="#概述" class="headerlink" title="概述"></a>概述</h3><p>对于逆向工程来说最为基础的就是掌握一门语言，语言是我们与计算机交流的一种工具，<br>在学习逆向工程的过程中，你要练就扎实的的语言基础，<br>不然当你拿到一个软件时，你会无从下手，简单的说，我们大概需要掌握如下语言：</p>
+<p>什么是逆向工程？逆向工程主要针对软件方面,学习计算机的底层知识,通过反汇编、反编译和动态跟踪等方法,分析出应用程序的实现过程,比如给你一个.exe的可执行文件,你想知道这个文件是否是一个病毒文件,就要进行对这个文件进行逆向,分析出他的行为来判断是否是一个病毒文件.应用的主要方向：软件破解、病毒分析、游戏漏洞分析、移动安全、二进制漏洞挖掘与利用.</p>
+<h3 id="概述"><a href="#概述" class="headerlink" title="概述"></a>概述</h3><p>对于逆向工程来说最为基础的就是掌握一门语言,语言是我们与计算机交流的一种工具,在学习逆向工程的过程中,你要练就扎实的的语言基础,不然当你拿到一个软件时,你会无从下手,简单的说,我们大概需要掌握如下语言：</p>
 <ol>
-<li><p>汇编语言：这是能否读懂底层代码的关键，我们分析他人的软件时一般是无源码无符号调试（除非是你自己写的，或者是开源的），<br>这是经常的事，几乎商业软件都不会将自己的软件代码开源出来，那样意味着别人可以随意对自己的东西进行修改删除或者进行盗版发行，<br>这是对软件商来说是不利的，但我们逆向分析人员厉害的就是可以通过一些工具进行无源码分析，功能修改，常见的就是外挂，但前提是你要懂汇编语言，这是我们考核的重点内容。<br>这里大家可以通过王爽老师的《汇编语言》一书配合<a href="https://www.bilibili.com/video/av28132657?from=search&seid=3279023914865469916" target="_blank" rel="noopener">小甲鱼的汇编视频</a>。</p>
+<li><p>汇编语言：这是能否读懂底层代码的关键,我们分析他人的软件时一般是无源码无符号调试（除非是你自己写的,或者是开源的）,这是经常的事,几乎商业软件都不会将自己的软件代码开源出来,那样意味着别人可以随意对自己的东西进行修改删除或者进行盗版发行,这是对软件商来说是不利的,但我们逆向分析人员厉害的就是可以通过一些工具进行无源码分析,功能修改,常见的就是外挂,但前提是你要懂汇编语言,这是我们考核的重点内容.这里大家可以通过王爽老师的《汇编语言》一书配合<a href="https://www.bilibili.com/video/av28132657?from=search&seid=3279023914865469916" target="_blank" rel="noopener">小甲鱼的汇编视频</a>.</p>
 </li>
-<li><p>c/c++: 这两门语言将是逆向分析者最常遇见和使用的语言，具体则体现在对于一些补丁的编写，当然不排除可以使用一些其他的语言，<br>但请注意，我们来开篇便言明，逆向工程是学习离不开计算机底层知识，所以c/c++无疑是必须的。<br>我们推荐可以学习<a href="https://www.bilibili.com/video/av27744141?from=search&seid=3279023914865469916" target="_blank" rel="noopener">小甲鱼的视频</a><br>或者其他书籍</p>
+<li><p>c/c++: 这两门语言将是逆向分析者最常遇见和使用的语言,具体则体现在对于一些补丁的编写,当然不排除可以使用一些其他的语言,但请注意,我们来开篇便言明,逆向工程是学习离不开计算机底层知识,所以c/c++无疑是必须的.我们推荐可以学习<a href="https://www.bilibili.com/video/av27744141?from=search&seid=3279023914865469916" target="_blank" rel="noopener">小甲鱼的视频</a>或者其他书籍</p>
 </li>
-<li><p>脚本语言和界面编程<br>在此基础上在扩展学习Python编写脚本，c#或者任意一门界面开发。</p>
+<li><p>脚本语言和界面编程<br>在此基础上在扩展学习Python编写脚本,c#或者任意一门界面开发.</p>
 </li>
 </ol>
-<h3 id="延伸"><a href="#延伸" class="headerlink" title="延伸"></a>延伸</h3><p>那么怎样开始逆向的学习，可以参考以下内容：</p>
+<h3 id="延伸"><a href="#延伸" class="headerlink" title="延伸"></a>延伸</h3><p>那么怎样开始逆向的学习,可以参考以下内容：</p>
 <ol>
-<li><p>工具的学习：OllyDbg一款经典的反汇编调试器，是最基础的工具，只有熟练掌握了这个工具，我们才能真正展开逆向分析学习，<br>而在此之上的一些延伸工具，如PEiD、ida等都会在后续学习在慢慢了解，以下我们为你们提供了一个学习OD的视频，<a href="https://pan.baidu.com/s/14_oDRDWRaptinzpawHXDVg" target="_blank" rel="noopener">链接</a>提取码：pqha 。</p>
+<li><p>工具的学习：OllyDbg一款经典的反汇编调试器,是最基础的工具,只有熟练掌握了这个工具,我们才能真正展开逆向分析学习,而在此之上的一些延伸工具,如PEiD、ida等都会在后续学习在慢慢了解,以下我们为你们提供了一个学习OD的视频,<a href="https://pan.baidu.com/s/14_oDRDWRaptinzpawHXDVg" target="_blank" rel="noopener">链接</a>提取码：pqha .</p>
 </li>
-<li><p>逆向研究方向：Windows、安卓、二进制等，他们又会有所区别？你们暂时不需要知道，在你学习掌握一些基础知识后我们后续会进行<br>说明和解释，记住方向的选择是在你有一定的基础之后。</p>
+<li><p>逆向研究方向：Windows、安卓、二进制等,他们又会有所区别？你们暂时不需要知道,在你学习掌握一些基础知识后我们后续会进行说明和解释,记住方向的选择是在你有一定的基础之后.</p>
 </li>
 </ol>
 <h2 id="寄语"><a href="#寄语" class="headerlink" title="寄语"></a>寄语</h2><ul>
-<li>逆向的学习绝非易事，涉及很多枯燥的技术，例如汇编、操作系统底层知识、外壳对抗等，这很容易让你放弃，中途而废。<br>下面我们提供一些学习建议</li>
+<li>逆向的学习绝非易事,涉及很多枯燥的技术,例如汇编、操作系统底层知识、外壳对抗等,这很容易让你放弃,中途而废.下面我们提供一些学习建议</li>
 </ul>
 <h4 id="1-打好基础是前提"><a href="#1-打好基础是前提" class="headerlink" title="1.打好基础是前提"></a>1.打好基础是前提</h4><ul>
-<li>不会走就想跑，是初学者最容易犯的错误。如C语言、API还没学明白，就想去玩内核驱动，不懂汇编没调试过程序就去玩Hook。</li>
+<li>不会走就想跑,是初学者最容易犯的错误.如C语言、API还没学明白,就想去玩内核驱动,不懂汇编没调试过程序就去玩Hook.</li>
 </ul>
-<h4 id="2-多调试，多实践"><a href="#2-多调试，多实践" class="headerlink" title="2.多调试，多实践"></a>2.多调试，多实践</h4><ul>
-<li>调试是逆向工作者的必备技能，不要空想，也不要未实践就乱下结论，一定要多动手。</li>
+<h4 id="2-多调试-多实践"><a href="#2-多调试-多实践" class="headerlink" title="2.多调试,多实践"></a>2.多调试,多实践</h4><ul>
+<li>调试是逆向工作者的必备技能,不要空想,也不要未实践就乱下结论,一定要多动手.</li>
 </ul>
 <h4 id="3-定好学习目标"><a href="#3-定好学习目标" class="headerlink" title="3.定好学习目标"></a>3.定好学习目标</h4><ul>
-<li>首先确定自己要学什么，然后再向着目标前进。有的人今天学汇编，明天学C,后天不知道是学JAVA还是.NET,亦或者是Python.有的人，<br>看到别人用驱动写了个进程保护挺NB,C语言还没学会，就投奔驱动去了，或者刚学内核什么都没研究明白，看别人又是解析HIVE又是解析,马上又转方向了。</li>
+<li>首先确定自己要学什么,然后再向着目标前进.有的人今天学汇编,明天学C,后天不知道是学JAVA还是.NET,亦或者是Python.有的人,看到别人用驱动写了个进程保护挺NB,C语言还没学会,就投奔驱动去了,或者刚学内核什么都没研究明白,看别人又是解析HIVE又是解析,马上又转方向了.</li>
 </ul>
 <h4 id="4-充分利用好各种学习资源"><a href="#4-充分利用好各种学习资源" class="headerlink" title="4.充分利用好各种学习资源"></a>4.充分利用好各种学习资源</h4><ul>
-<li>网上有很多学习资源，例如优秀的代码和学习教程，以及很多大佬的帖子，都能学到不少干货。</li>
+<li>网上有很多学习资源,例如优秀的代码和学习教程,以及很多大佬的帖子,都能学到不少干货.</li>
 </ul>
 <p><a href="https://www.52pojie.cn/" target="_blank" rel="noopener">吾爱破解</a></p>
 <p><a href="https://bbs.pediy.com/" target="_blank" rel="noopener">看雪论坛</a></p>
 <h4 id="5-善用搜索引擎"><a href="#5-善用搜索引擎" class="headerlink" title="5.善用搜索引擎"></a>5.善用搜索引擎</h4><ul>
-<li>对初学者而言,遇到的大部分问题都可以找到前人们的资料和答案。除非某个问题我思考了很久确实无法解决,搜索到的相关资料也无法提供帮助,这时候才适合去寻求他人的帮助，寻求学长帮助.</li>
+<li>对初学者而言,遇到的大部分问题都可以找到前人们的资料和答案.除非某个问题我思考了很久确实无法解决,搜索到的相关资料也无法提供帮助,这时候才适合去寻求他人的帮助,寻求学长帮助.</li>
 </ul>
-<h4 id="6-最后就是要吃苦，要坚持"><a href="#6-最后就是要吃苦，要坚持" class="headerlink" title="6.最后就是要吃苦，要坚持"></a>6.最后就是要吃苦，要坚持</h4><ul>
+<h4 id="6-最后就是要吃苦-要坚持"><a href="#6-最后就是要吃苦-要坚持" class="headerlink" title="6.最后就是要吃苦,要坚持"></a>6.最后就是要吃苦,要坚持</h4><ul>
 <li>学习逆向的过程并不轻松,尤其是汇编、破解,尽可能地坚持不要放弃.真正地提升就是在你坚持坚持再坚持之后,之前的一切都只是铺垫,放弃了就什么都没有了~</li>
 </ul>
 
@@ -568,7 +568,7 @@ top:50vh;
         <div class="toc-catalog">
             <span class="iconfont-archer catalog-icon">&#xe613;</span><span>CATALOG</span>
         </div>
-        <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#概述"><span class="toc-number">1.</span> <span class="toc-text">概述</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#延伸"><span class="toc-number">2.</span> <span class="toc-text">延伸</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#寄语"><span class="toc-number"></span> <span class="toc-text">寄语</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#1-打好基础是前提"><span class="toc-number">0.1.</span> <span class="toc-text">1.打好基础是前提</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#2-多调试，多实践"><span class="toc-number">0.2.</span> <span class="toc-text">2.多调试，多实践</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#3-定好学习目标"><span class="toc-number">0.3.</span> <span class="toc-text">3.定好学习目标</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#4-充分利用好各种学习资源"><span class="toc-number">0.4.</span> <span class="toc-text">4.充分利用好各种学习资源</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#5-善用搜索引擎"><span class="toc-number">0.5.</span> <span class="toc-text">5.善用搜索引擎</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#6-最后就是要吃苦，要坚持"><span class="toc-number">0.6.</span> <span class="toc-text">6.最后就是要吃苦，要坚持</span></a></li></ol></li></ol>
+        <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#概述"><span class="toc-number">1.</span> <span class="toc-text">概述</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#延伸"><span class="toc-number">2.</span> <span class="toc-text">延伸</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#寄语"><span class="toc-number"></span> <span class="toc-text">寄语</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#1-打好基础是前提"><span class="toc-number">0.1.</span> <span class="toc-text">1.打好基础是前提</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#2-多调试-多实践"><span class="toc-number">0.2.</span> <span class="toc-text">2.多调试,多实践</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#3-定好学习目标"><span class="toc-number">0.3.</span> <span class="toc-text">3.定好学习目标</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#4-充分利用好各种学习资源"><span class="toc-number">0.4.</span> <span class="toc-text">4.充分利用好各种学习资源</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#5-善用搜索引擎"><span class="toc-number">0.5.</span> <span class="toc-text">5.善用搜索引擎</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#6-最后就是要吃苦-要坚持"><span class="toc-number">0.6.</span> <span class="toc-text">6.最后就是要吃苦,要坚持</span></a></li></ol></li></ol>
     </div>
     
     <div class="back-top iconfont-archer">&#xe639;</div>
@@ -617,7 +617,7 @@ top:50vh;
     
     
         <li class="archive-post-item">
-            <span class="archive-post-date">07/27</span><a class="archive-post-title" href= "/2019/07/27/Reverse/" >逆向工程介绍</a>
+            <span class="archive-post-date">07/27</span><a class="archive-post-title" href= "/2019/07/27/Reverse/" >逆向工程入门介绍</a>
         </li>
     
     
