@@ -1,0 +1,768 @@
+<!DOCTYPE html>
+<html lang="">
+    <!-- title -->
+
+
+
+
+<!-- keywords -->
+
+
+
+
+<head><meta name="generator" content="Hexo 3.9.0">
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+    <meta name="author" content="John Doe">
+    <meta name="renderer" content="webkit">
+    <meta name="copyright" content="John Doe">
+    
+    <meta name="keywords" content="hexo,hexo-theme,hexo-blog">
+    
+    <meta name="description" content>
+    <meta http-equiv="Cache-control" content="no-cache">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <title>Web渗透入门 · SWPU_08067sec</title>
+    <style type="text/css">
+    @font-face {
+        font-family: 'Oswald-Regular';
+        src: url("/font/Oswald-Regular.ttf");
+    }
+
+    body {
+        margin: 0;
+    }
+
+    header,
+    footer,
+    .back-top,
+    .sidebar,
+    .container,
+    .site-intro-meta,
+    .toc-wrapper {
+        display: none;
+    }
+
+    .site-intro {
+        position: relative;
+        z-index: 3;
+        width: 100%;
+        /* height: 50vh; */
+        overflow: hidden;
+    }
+
+    .site-intro-placeholder {
+        position: absolute;
+        z-index: -2;
+        top: 0;
+        left: 0;
+        width: calc(100% + 300px);
+        height: 100%;
+        background: repeating-linear-gradient(-45deg, #444 0, #444 80px, #333 80px, #333 160px);
+        background-position: center center;
+        transform: translate3d(-226px, 0, 0);
+        animation: gradient-move 2.5s ease-out 0s infinite;
+    }
+
+    @keyframes gradient-move {
+        0% {
+            transform: translate3d(-226px, 0, 0);
+        }
+        100% {
+            transform: translate3d(0, 0, 0);
+        }
+    }
+
+</style>
+
+    <link rel="preload" href="/css/style.css?v=20180824" as="style" onload="this.onload=null;this.rel='stylesheet'">
+    <link rel="stylesheet" href="/css/mobile.css?v=20180824" media="(max-width: 980px)">
+    
+    <link rel="preload" href="https://cdnjs.cloudflare.com/ajax/libs/fancybox/3.2.5/jquery.fancybox.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+    
+    <!-- /*! loadCSS. [c]2017 Filament Group, Inc. MIT License */
+/* This file is meant as a standalone workflow for
+- testing support for link[rel=preload]
+- enabling async CSS loading in browsers that do not support rel=preload
+- applying rel preload css once loaded, whether supported or not.
+*/ -->
+<script>
+(function( w ){
+	"use strict";
+	// rel=preload support test
+	if( !w.loadCSS ){
+		w.loadCSS = function(){};
+	}
+	// define on the loadCSS obj
+	var rp = loadCSS.relpreload = {};
+	// rel=preload feature support test
+	// runs once and returns a function for compat purposes
+	rp.support = (function(){
+		var ret;
+		try {
+			ret = w.document.createElement( "link" ).relList.supports( "preload" );
+		} catch (e) {
+			ret = false;
+		}
+		return function(){
+			return ret;
+		};
+	})();
+
+	// if preload isn't supported, get an asynchronous load by using a non-matching media attribute
+	// then change that media back to its intended value on load
+	rp.bindMediaToggle = function( link ){
+		// remember existing media attr for ultimate state, or default to 'all'
+		var finalMedia = link.media || "all";
+
+		function enableStylesheet(){
+			link.media = finalMedia;
+		}
+
+		// bind load handlers to enable media
+		if( link.addEventListener ){
+			link.addEventListener( "load", enableStylesheet );
+		} else if( link.attachEvent ){
+			link.attachEvent( "onload", enableStylesheet );
+		}
+
+		// Set rel and non-applicable media type to start an async request
+		// note: timeout allows this to happen async to let rendering continue in IE
+		setTimeout(function(){
+			link.rel = "stylesheet";
+			link.media = "only x";
+		});
+		// also enable media after 3 seconds,
+		// which will catch very old browsers (android 2.x, old firefox) that don't support onload on link
+		setTimeout( enableStylesheet, 3000 );
+	};
+
+	// loop through link elements in DOM
+	rp.poly = function(){
+		// double check this to prevent external calls from running
+		if( rp.support() ){
+			return;
+		}
+		var links = w.document.getElementsByTagName( "link" );
+		for( var i = 0; i < links.length; i++ ){
+			var link = links[ i ];
+			// qualify links to those with rel=preload and as=style attrs
+			if( link.rel === "preload" && link.getAttribute( "as" ) === "style" && !link.getAttribute( "data-loadcss" ) ){
+				// prevent rerunning on link
+				link.setAttribute( "data-loadcss", true );
+				// bind listeners to toggle media back
+				rp.bindMediaToggle( link );
+			}
+		}
+	};
+
+	// if unsupported, run the polyfill
+	if( !rp.support() ){
+		// run once at least
+		rp.poly();
+
+		// rerun poly on an interval until onload
+		var run = w.setInterval( rp.poly, 500 );
+		if( w.addEventListener ){
+			w.addEventListener( "load", function(){
+				rp.poly();
+				w.clearInterval( run );
+			} );
+		} else if( w.attachEvent ){
+			w.attachEvent( "onload", function(){
+				rp.poly();
+				w.clearInterval( run );
+			} );
+		}
+	}
+
+
+	// commonjs
+	if( typeof exports !== "undefined" ){
+		exports.loadCSS = loadCSS;
+	}
+	else {
+		w.loadCSS = loadCSS;
+	}
+}( typeof global !== "undefined" ? global : this ) );
+</script>
+
+    <link rel="icon" href="/assets/favicon.ico">
+    <link rel="preload" href="https://cdn.jsdelivr.net/npm/webfontloader@1.6.28/webfontloader.min.js" as="script">
+    <link rel="preload" href="https://cdn.jsdelivr.net/npm/jquery@3.3.1/dist/jquery.min.js" as="script">
+    <link rel="preload" href="/scripts/main.js" as="script">
+    <link rel="preload" as="font" href="/font/Oswald-Regular.ttf" crossorigin>
+    <link rel="preload" as="font" href="https://at.alicdn.com/t/font_327081_1dta1rlogw17zaor.woff" crossorigin>
+    
+    <!-- fancybox -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/fancybox/3.2.5/jquery.fancybox.min.js" defer></script>
+    <!-- 百度统计  -->
+    
+    <!-- 谷歌统计  -->
+    
+</head>
+
+    
+        <body class="post-body">
+    
+    
+<header class="header">
+
+    <div class="read-progress"></div>
+    <div class="header-sidebar-menu">&#xe775;</div>
+    <!-- post页的toggle banner  -->
+    
+    <div class="banner">
+            <div class="blog-title">
+                <a href="/" >SWPU_08067sec</a>
+            </div>
+            <div class="post-title">
+                <a href="#" class="post-name">Web渗透入门</a>
+            </div>
+    </div>
+    
+    <a class="home-link" href=/>SWPU_08067sec</a>
+</header>
+    <div class="wrapper">
+        <div class="site-intro" style="
+
+
+
+
+
+
+
+height:50vh;
+">
+    
+    <!-- 主页  -->
+    
+    
+    <!-- 404页  -->
+            
+    <div class="site-intro-placeholder"></div>
+    <div class="site-intro-img" style="background-image: url(/intro/post-bg.jpg)"></div>
+    <div class="site-intro-meta">
+        <!-- 标题  -->
+        <h1 class="intro-title">
+            <!-- 主页  -->
+            
+            Web渗透入门
+            <!-- 404 -->
+            
+        </h1>
+        <!-- 副标题 -->
+        <p class="intro-subtitle">
+            <!-- 主页副标题  -->
+            
+            
+            <!-- 404 -->
+            
+        </p>
+        <!-- 文章页meta -->
+        
+            <div class="post-intros">
+                <!-- 文章页标签  -->
+                
+                
+                    <div class="post-intro-read">
+                        <span>字数统计: <span class="post-count word-count">2.3k</span>阅读时长: <span class="post-count reading-time">8 min</span></span>
+                    </div>
+                
+                <div class="post-intro-meta">
+                    <span class="post-intro-calander iconfont-archer">&#xe676;</span>
+                    <span class="post-intro-time">2019/07/27</span>
+                    
+                    <span id="busuanzi_container_page_pv" class="busuanzi-pv">
+                        <span class="iconfont-archer">&#xe602;</span>
+                        <span id="busuanzi_value_page_pv"></span>
+                    </span>
+                    
+                    <span class="shareWrapper">
+                        <span class="iconfont-archer shareIcon">&#xe71d;</span>
+                        <span class="shareText">Share</span>
+                        <ul class="shareList">
+                            <li class="iconfont-archer share-qr" data-type="qr">&#xe75b;
+                                <div class="share-qrcode"></div>
+                            </li>
+                            <li class="iconfont-archer" data-type="weibo">&#xe619;</li>
+                            <li class="iconfont-archer" data-type="qzone">&#xe62e;</li>
+                            <li class="iconfont-archer" data-type="twitter">&#xe634;</li>
+                            <li class="iconfont-archer" data-type="facebook">&#xe67a;</li>
+                        </ul>
+                    </span>
+                </div>
+            </div>
+        
+    </div>
+</div>
+        <script>
+ 
+  // get user agent
+  var browser = {
+    versions: function () {
+      var u = window.navigator.userAgent;
+      return {
+        userAgent: u,
+        trident: u.indexOf('Trident') > -1, //IE内核
+        presto: u.indexOf('Presto') > -1, //opera内核
+        webKit: u.indexOf('AppleWebKit') > -1, //苹果、谷歌内核
+        gecko: u.indexOf('Gecko') > -1 && u.indexOf('KHTML') == -1, //火狐内核
+        mobile: !!u.match(/AppleWebKit.*Mobile.*/), //是否为移动终端
+        ios: !!u.match(/\(i[^;]+;( U;)? CPU.+Mac OS X/), //ios终端
+        android: u.indexOf('Android') > -1 || u.indexOf('Linux') > -1, //android终端或者uc浏览器
+        iPhone: u.indexOf('iPhone') > -1 || u.indexOf('Mac') > -1, //是否为iPhone或者安卓QQ浏览器
+        iPad: u.indexOf('iPad') > -1, //是否为iPad
+        webApp: u.indexOf('Safari') == -1, //是否为web应用程序，没有头部与底部
+        weixin: u.indexOf('MicroMessenger') == -1, //是否为微信浏览器
+        uc: u.indexOf('UCBrowser') > -1 //是否为android下的UC浏览器
+      };
+    }()
+  }
+  console.log("userAgent:" + browser.versions.userAgent);
+
+  // callback
+  function fontLoaded() {
+    console.log('font loaded');
+    if (document.getElementsByClassName('site-intro-meta')) {
+      document.getElementsByClassName('intro-title')[0].classList.add('intro-fade-in');
+      document.getElementsByClassName('intro-subtitle')[0].classList.add('intro-fade-in');
+      var postIntros = document.getElementsByClassName('post-intros')[0]
+      if (postIntros) {
+        postIntros.classList.add('post-fade-in');
+      }
+    }
+  }
+
+  // UC不支持跨域，所以直接显示
+  function asyncCb(){
+    if (browser.versions.uc) {
+      console.log("UCBrowser");
+      fontLoaded();
+    } else {
+      WebFont.load({
+        custom: {
+          families: ['Oswald-Regular']
+        },
+        loading: function () {  //所有字体开始加载
+          // console.log('loading');
+        },
+        active: function () {  //所有字体已渲染
+          fontLoaded();
+        },
+        inactive: function () { //字体预加载失败，无效字体或浏览器不支持加载
+          console.log('inactive: timeout');
+          fontLoaded();
+        },
+        timeout: 5000 // Set the timeout to two seconds
+      });
+    }
+  }
+
+  function asyncErr(){
+    console.warn('script load from CDN failed, will load local script')
+  }
+
+  // load webfont-loader async, and add callback function
+  function async(u, cb, err) {
+    var d = document, t = 'script',
+      o = d.createElement(t),
+      s = d.getElementsByTagName(t)[0];
+    o.src = u;
+    if (cb) { o.addEventListener('load', function (e) { cb(null, e); }, false); }
+    if (err) { o.addEventListener('error', function (e) { err(null, e); }, false); }
+    s.parentNode.insertBefore(o, s);
+  }
+
+  var asyncLoadWithFallBack = function(arr, success, reject) {
+      var currReject = function(){
+        reject()
+        arr.shift()
+        if(arr.length)
+          async(arr[0], success, currReject)
+        }
+
+      async(arr[0], success, currReject)
+  }
+
+  asyncLoadWithFallBack([
+    "https://cdn.jsdelivr.net/npm/webfontloader@1.6.28/webfontloader.min.js", 
+    "https://cdn.bootcss.com/webfont/1.6.28/webfontloader.js",
+    "/lib/webfontloader.min.js"
+  ], asyncCb, asyncErr)
+</script>        
+        <img class="loading" src="/assets/loading.svg" style="display: block; margin: 6rem auto 0 auto; width: 6rem; height: 6rem;" />
+        <div class="container container-unloaded">
+            <main class="main post-page">
+    <article class="article-entry">
+        <h3 id="web安全简单说"><a href="#web安全简单说" class="headerlink" title="web安全简单说"></a>web安全简单说</h3><p>网络安全的学习有很多方向：渗透测试，逆向工程，密码学，移动安全，硬件安全等。就web渗透来说的话，入门相对简单，因为我们都接触和实际使用过网站，但是web渗透越深入越复杂，越往后学习，涉及到的知识体系越大。所以学习web渗透，重点是<strong>将相关的基础知识打牢</strong>，基础知识牢固，后面继续深入学习的时候才会顺其自然。  </p>
+<h3 id="知识简介"><a href="#知识简介" class="headerlink" title="知识简介"></a>知识简介</h3><p>说到web渗透的基础知识，web渗透的基础知识很多，这也就是为什么深入学习的时候它的知识体系是非常庞大的。web前后端，web服务器，HTML，js，php，java，python等语言，liunx相关知识，协议，端口；同时还有很多的专业术语：exp，poc，payload，shell等。</p>
+<h3 id="入门指南"><a href="#入门指南" class="headerlink" title="入门指南"></a>入门指南</h3><p>上面简单介绍了一下web渗透相关的东西，下面主要详细说一下关于web渗透入门学习的一个推荐学习历程（可根据自己的实际情况学习，这里只是针对不知道该如何学习的同学的一个引导）：  </p>
+<h4 id="前端语言"><a href="#前端语言" class="headerlink" title="前端语言"></a>前端语言</h4><p>写出来的web页面总要有点样式吧，所以前端还是要简单学习一下的，才开始入门的话不用太深入，简单的学习即可：</p>
+<ul>
+<li>HTML</li>
+<li>javascript</li>
+<li>ajax</li>
+<li>css</li>
+</ul>
+<p>推荐学习地址：<br><a href="https://www.runoob.com/html/html-tutorial.html" target="_blank" rel="noopener">HTML</a><br><a href="https://www.runoob.com/js/js-tutorial.html" target="_blank" rel="noopener">javascript</a><br><a href="https://www.runoob.com/ajax/ajax-tutorial.html" target="_blank" rel="noopener">ajax</a><br><a href="https://www.runoob.com/css/css-tutorial.html" target="_blank" rel="noopener">css</a>  </p>
+<h4 id="后端语言PHP"><a href="#后端语言PHP" class="headerlink" title="后端语言PHP"></a>后端语言PHP</h4><p>php语言主要就是方便简单，但同时PHP出现的漏洞也是非常多的，在我们初学web时，使用php可以帮助我们很快的入门，初学时要会写简单的代码，实现get，post请求，知道cookie，header，实现前后端分离，对数据库的操作这些简单的操作。<br><a href="https://www.runoob.com/php/php-tutorial.html" target="_blank" rel="noopener">PHP教程</a></p>
+<p>我们要使用一个web服务器来运行php写的简单的站点或者页面，这里我们使用PHPstudy，PHPstudy集成了Apache+PHP+mysql，没有复杂的服务器配置，使用非常简单。<br><a href="http://phpstudy.php.cn/download.html" target="_blank" rel="noopener">PHPstudy下载</a>  </p>
+<p>使用PHP之前推荐先了解学习MySQL</p>
+<h4 id="MySQL"><a href="#MySQL" class="headerlink" title="MySQL"></a>MySQL</h4><p>MySQL是一个使用非常广泛关系型数据库，入门学习的时候会<strong>增删查改</strong>操作即可，推荐使用PHPstudy集成的MySQL进行练习。<br><a href="https://www.runoob.com/mysql/mysql-tutorial.html" target="_blank" rel="noopener">MySQL学习</a>  </p>
+<h4 id="HTTP协议"><a href="#HTTP协议" class="headerlink" title="HTTP协议"></a>HTTP协议</h4><p>简单了解http是如何发送请求的，数据报是如何构成的。<br><a href="https://www.runoob.com/http/http-tutorial.html" target="_blank" rel="noopener">HTTP协议</a>  </p>
+<h4 id="Linux学习"><a href="#Linux学习" class="headerlink" title="Linux学习"></a>Linux学习</h4><p>linux系统是不同于windows系统的，在成为一个hacker的道路中不会linux是不可能的，不过入门的话不需要学太仔细，会使用基本的命令操作linux，会在linux上搭建一个web服务器。<br><a href="https://www.runoob.com/linux/Linux-intro.html" target="_blank" rel="noopener">Liunx学习</a>  </p>
+<p>这里可能会有点难入门，linux服务器可以使用VMware workstation 或者 腾讯云/阿里云购买一台ubuntu服务器，这个可以先暂时放在一边，也可以问学长，只要是学习，学长们都是来者不拒的。  </p>
+<h3 id="常见漏洞"><a href="#常见漏洞" class="headerlink" title="常见漏洞"></a>常见漏洞</h3><p>学习了上面的基础知识后，就可以开始学习一些漏洞原理了，学习原理是通过PHP复现，一是PHP简单易上手，二是PHP几乎涵盖所有常见类型漏洞，理解起来也比较简单  </p>
+<h4 id="SQL注入"><a href="#SQL注入" class="headerlink" title="SQL注入"></a>SQL注入</h4><p>MySQL学习过，我想SQL语句也已经有了一定的学习，通过学习知道什么是SQL注入：<a href="https://blog.csdn.net/ideality_hunter/article/details/80623526" target="_blank" rel="noopener">sql注入，一个例子让你知道什么是sql注入</a>(如果看不懂多百度)  </p>
+<p>然后在本地搭建一个专门练习SQL注入的平台，下载源码<br><a href="https://github.com/Audi-1/sqli-labs" target="_blank" rel="noopener">下载 sqli-labs 源码</a><br>放到PHPstudy里面去运行，就可以训练SQL注入了。<br><a href="https://www.cnblogs.com/peterpan0707007/p/7501575.html" target="_blank" rel="noopener">sqli-labs搭建</a></p>
+<h4 id="文件包含漏洞"><a href="#文件包含漏洞" class="headerlink" title="文件包含漏洞"></a>文件包含漏洞</h4><p>学习过PHP，应该对include()，include_once()，require()，require_once() 有所了解，具体请看：<br><a href="https://www.jianshu.com/p/3514f0fd79f7" target="_blank" rel="noopener">文件包含漏洞学习总结</a>  </p>
+<h4 id="命令执行，代码执行"><a href="#命令执行，代码执行" class="headerlink" title="命令执行，代码执行"></a>命令执行，代码执行</h4><p><a href="https://www.0dayhack.com/post-834.html" target="_blank" rel="noopener">Web渗透测试中命令执行漏洞详解</a><br>实际可以在dvwa平台上操作。</p>
+<h4 id="文件上传漏洞"><a href="#文件上传漏洞" class="headerlink" title="文件上传漏洞"></a>文件上传漏洞</h4><p>文件上传漏洞主要是上传webshell，获取网站权限。<br><a href="https://www.jianshu.com/p/5ebba0482980" target="_blank" rel="noopener">文件上传漏洞</a><br>同sqli-labs一样，文件上传也有一个靶场：<br><a href="https://github.com/c0ny1/upload-labs" target="_blank" rel="noopener">upload-labs</a><br>先自己黑盒测试，如果绕不过，就白盒看看能否上传成功，实在不行就看writeup<br><a href="https://xz.aliyun.com/t/2435" target="_blank" rel="noopener">upload-labs通关手册</a>  </p>
+<h4 id="XSS"><a href="#XSS" class="headerlink" title="XSS"></a>XSS</h4><p>学XSS要学会javascript，xss又分为反射型、存储型、DOM型xss，是由于对用户的输入过滤不严造成的，将这些恶意代码嵌入到网页中，当用户浏览的时候，其中的恶意代码就会执行。<br><a href="https://www.cnblogs.com/Hydraxx/p/8530906.html" target="_blank" rel="noopener">XSS漏洞详解</a>   </p>
+<p>发现一个xss小游戏，还挺有意思的：<br><a href="https://xss.haozi.me/#/" target="_blank" rel="noopener">xss小游戏</a></p>
+<h4 id="CSRF"><a href="#CSRF" class="headerlink" title="CSRF"></a>CSRF</h4><p>CSRF现在的危害越来越小，而且防范也非常容易，但是必要的漏洞原理还是要学习。<br><a href="https://www.freebuf.com/column/155800.html" target="_blank" rel="noopener">Web安全-CSRF漏洞</a>  </p>
+<h4 id="SSRF"><a href="#SSRF" class="headerlink" title="SSRF"></a>SSRF</h4><p>SSRF是通过服务器端去发送请求，可以执行访问内网，探测端口等敏感操作。<br><a href="https://uknowsec.cn/posts/notes/SSRF%E6%BC%8F%E6%B4%9E%E7%9A%84%E5%88%A9%E7%94%A8%E4%B8%8E%E5%AD%A6%E4%B9%A0.html" target="_blank" rel="noopener">SSRF漏洞的利用与学习</a>   </p>
+<h4 id="XXE"><a href="#XXE" class="headerlink" title="XXE"></a>XXE</h4><p>学习XXE漏洞之前需要学一下XML。<br><a href="https://www.runoob.com/xml/xml-tutorial.html" target="_blank" rel="noopener">XML教程</a><br><a href="https://www.k0rz3n.com/2018/11/19/%E4%B8%80%E7%AF%87%E6%96%87%E7%AB%A0%E5%B8%A6%E4%BD%A0%E6%B7%B1%E5%85%A5%E7%90%86%E8%A7%A3%20XXE%20%E6%BC%8F%E6%B4%9E/" target="_blank" rel="noopener">一篇文章带你理解漏洞之 XXE 漏洞</a>   </p>
+<h4 id="反序列化"><a href="#反序列化" class="headerlink" title="反序列化"></a>反序列化</h4><p>先学习PHP的反序列化，等后面学了java后，再学习java的反序列化漏洞。<br><a href="https://blog.csdn.net/nzjdsds/article/details/82703639" target="_blank" rel="noopener">四个实例递进php反序列化漏洞理解</a><br><a href="https://www.freebuf.com/articles/web/167721.html" target="_blank" rel="noopener">最通俗易懂的PHP反序列化原理分析</a>  </p>
+<h4 id="SSTI模板注入"><a href="#SSTI模板注入" class="headerlink" title="SSTI模板注入"></a>SSTI模板注入</h4><p><a href="https://www.freebuf.com/vuls/83999.html" target="_blank" rel="noopener">服务端模板注入攻击 （SSTI）之浅析</a>  </p>
+<h4 id="变量覆盖"><a href="#变量覆盖" class="headerlink" title="变量覆盖"></a>变量覆盖</h4><p><a href="https://www.jianshu.com/p/a4d782e91852" target="_blank" rel="noopener">CTF之php变量覆盖漏洞</a>  </p>
+<h4 id="论PHP的常见漏洞"><a href="#论PHP的常见漏洞" class="headerlink" title="论PHP的常见漏洞"></a>论PHP的常见漏洞</h4><p>如果前面的都了解了或者说学的不错了，那这篇文章就当一个比较全面的总结吧。<br><a href="http://www.vuln.cn/7075" target="_blank" rel="noopener">http://www.vuln.cn/7075</a></p>
+<h4 id="大量的CTF练习"><a href="#大量的CTF练习" class="headerlink" title="大量的CTF练习"></a>大量的CTF练习</h4><p>在前期阶段，做大量的CTF题目有助于我们快速的成长，因为CTF里面涉及到了很多的知识点，做大量的题目，搞清楚每个题目所涉及到的知识点，最后无疑会产生非常大的一个质变。除了我下面推荐的两个平台，i春秋，合天智汇等也有优质的CTF赛题，还有很多是往届赛事的题目。当大家融入到这个圈子之后，找这些也很容易。  </p>
+<h3 id="推荐靶场"><a href="#推荐靶场" class="headerlink" title="推荐靶场"></a>推荐靶场</h3><h4 id="DVWA"><a href="#DVWA" class="headerlink" title="DVWA"></a>DVWA</h4><p>DVWA涵盖了php的常见漏洞，提供了一个测试环境，上述提到的漏洞基本都可以在这上面进行复现。<br>源码下载：<a href="https://github.com/ethicalhack3r/DVWA" target="_blank" rel="noopener">dvwa源码下载</a><br>同sqli-labs一样，将DVWA放在PHPstudy的www目录下，配置好数据库即可运行。  </p>
+<h4 id="Bugku"><a href="#Bugku" class="headerlink" title="Bugku"></a>Bugku</h4><p><a href="https://ctf.bugku.com/" target="_blank" rel="noopener">Bugku</a>是一个ctf练习平台，在初学阶段，ctf可以衡量大家是否掌握这些基础知识。  </p>
+<h4 id="攻防世界"><a href="#攻防世界" class="headerlink" title="攻防世界"></a>攻防世界</h4><p><a href="https://adworld.xctf.org.cn/" target="_blank" rel="noopener">攻防世界</a>也是一个ctf平台。  </p>
+<p>大家在做ctf的时候，肯定会有些题不会做，先试着自己做，当实在不会的时候再在网上搜索writeup，跟着writeup边做边思考为什么，然后再自己思考是否还有其他做法。  </p>
+<h3 id="工具学习"><a href="#工具学习" class="headerlink" title="工具学习"></a>工具学习</h3><h4 id="sqlmap"><a href="#sqlmap" class="headerlink" title="sqlmap"></a>sqlmap</h4><p>sqlmap是一个开源的渗透测试工具，可以用来进行自动化检测，利用SQL注入漏洞，获取数据库服务器的权限。<br>学习链接：<br><a href="http://www.vuln.cn/1992" target="_blank" rel="noopener">Sqlmap使用教程</a><br><a href="https://www.freebuf.com/sectool/164608.html" target="_blank" rel="noopener">超详细SQLMap使用攻略及技巧分享</a>  </p>
+<p>因为sqlmap需要python环境的的，所以要先搭建好python环境：<br><a href="https://www.runoob.com/python/python-install.html" target="_blank" rel="noopener">python 环境搭建</a>  </p>
+<h4 id="burpsuite"><a href="#burpsuite" class="headerlink" title="burpsuite"></a>burpsuite</h4><p>burp是一个可以抓取请求数据包/拦截响应数据包的工具，在渗透测试中，burp是必备工具，必须要熟练运用burpsuite。<br>因为burp专业版收费，可以在网上找破解版，burpsuite安装与使用：<br><a href="https://blog.csdn.net/liweibin812/article/details/83650751" target="_blank" rel="noopener">burp suite的安装与基本使用</a>  </p>
+<p>安装burp需要jdk，所以要先安装配置好jdk：<br><a href="https://blog.csdn.net/qq_42003566/article/details/82629570" target="_blank" rel="noopener">jdk的下载与安装详细图解</a></p>
+<h3 id="其余优质学习资料"><a href="#其余优质学习资料" class="headerlink" title="其余优质学习资料"></a>其余优质学习资料</h3><ul>
+<li><a href="https://wizardforcel.gitbooks.io/mst-sec-lecture-notes/" target="_blank" rel="noopener">米斯特白帽培训讲义</a>  </li>
+<li><a href="https://github.com/CHYbeta/Web-Security-Learning" target="_blank" rel="noopener">Web-Security-Learning</a>  </li>
+<li><a href="https://xz.aliyun.com/t/2231" target="_blank" rel="noopener">零基础web安全学习终极攻略</a>  </li>
+<li><a href="https://websec.readthedocs.io/zh/latest/index.html#" target="_blank" rel="noopener">Web安全学习笔记</a>  </li>
+<li><a href="http://blog.knownsec.com/Knownsec_RD_Checklist/" target="_blank" rel="noopener">技能研发表</a></li>
+</ul>
+<h3 id="推荐web安全微信公众号"><a href="#推荐web安全微信公众号" class="headerlink" title="推荐web安全微信公众号"></a>推荐web安全微信公众号</h3><ul>
+<li>HACK学习呀</li>
+<li>合天智汇</li>
+<li>Ms08067安全实验室</li>
+<li>安全祖师爷</li>
+<li>洛米唯熊</li>
+<li>小白帽学习之路</li>
+</ul>
+<h3 id="推荐知识星球"><a href="#推荐知识星球" class="headerlink" title="推荐知识星球"></a>推荐知识星球</h3><ul>
+<li>Bypass<br>(其他的不收费的我也不太了解)</li>
+</ul>
+<h3 id="推荐学习平台"><a href="#推荐学习平台" class="headerlink" title="推荐学习平台"></a>推荐学习平台</h3><ul>
+<li><a href="https://www.ichunqiu.com/" target="_blank" rel="noopener">i春秋</a></li>
+<li><a href="http://www.hetianlab.com/" target="_blank" rel="noopener">合天智汇实验室</a></li>
+<li><a href="https://xz.aliyun.com/" target="_blank" rel="noopener">先知社区</a></li>
+<li><a href="https://www.anquanke.com/" target="_blank" rel="noopener">安全客</a></li>
+<li><a href="https://www.freebuf.com/" target="_blank" rel="noopener">freebuf</a></li>
+</ul>
+<h3 id="PDF分享"><a href="#PDF分享" class="headerlink" title="PDF分享"></a>PDF分享</h3><ul>
+<li><a href="https://pan.baidu.com/s/1KLX5rXkN-qQTSFrclyDWNQ" target="_blank" rel="noopener">白帽子讲Web安全</a>  </li>
+<li><a href="https://pan.baidu.com/s/1tZF2Jdrn36x1A1PuYStD1A" target="_blank" rel="noopener">黑客攻防技术宝典-Web实战篇(第2版)</a>  </li>
+<li><a href="https://pan.baidu.com/s/1rQfpIvyUbZb3qKEnf2ix2w" target="_blank" rel="noopener">Web前端黑客技术揭秘</a>  </li>
+<li><a href="https://pan.baidu.com/s/1imIXl1rVpLv1iFEnY7zOfg" target="_blank" rel="noopener">鸟哥的私房菜-linux基础篇</a>  </li>
+<li><a href="https://pan.baidu.com/s/11DsUl0IMsEiljZ4mx8KitQ" target="_blank" rel="noopener">图解HTTP</a>  </li>
+</ul>
+<h3 id="说在最后"><a href="#说在最后" class="headerlink" title="说在最后"></a>说在最后</h3><p>学习最重要的是静下心来，这点我深有体会，后期在学一个东西或者知识点的时候，一定要记得专研，不要只停留在一个浅在的表面，只有专研才能有进步，在学习一个东西的时候切记不要分心，不要受外界影响，不能看到其他人在打游戏，出去玩，你也就想着一起玩会儿游戏，人是很容易堕落的，希望大家在学习的道路上能一往无前。  </p>
+<p>上面的一些学习链接如果并不能让大家理解这个东西，可以继续百度，也可以咨询学长们。在学习过程中遇到的任何问题都可以咨询群里的学长，也欢迎大家多多问问题，同时有什么意见或者提议也可以联系我们。<br>qq群：817824459</p>
+
+    </article>
+    <!-- license  -->
+    
+        <div class="license-wrapper">
+            <p>原文作者：<a href="https://08067sec.github.io">John Doe</a>
+            <p>原文链接：<a href="https://08067sec.github.io/2019/07/27/web/">https://08067sec.github.io/2019/07/27/web/</a>
+            <p>发表日期：<a href="https://08067sec.github.io/2019/07/27/web/">July 27th 2019, 12:00:00 am</a>
+            <p>更新日期：<a href="https://08067sec.github.io/2019/07/27/web/">July 27th 2019, 11:04:35 am</a>
+            <p>版权声明：本文采用<a rel="license" href="http://creativecommons.org/licenses/by-nc/4.0/">知识共享署名-非商业性使用 4.0 国际许可协议</a>进行许可</p>
+        </div>
+    
+    <!-- paginator  -->
+    <ul class="post-paginator">
+        <li class="next">
+            
+                <div class="nextSlogan">Next Post</div>
+                <a href= "/2019/07/27/hello-world/" title= "Hello World">
+                    <div class="nextTitle">Hello World</div>
+                </a>
+            
+        </li>
+        <li class="previous">
+            
+        </li>
+    </ul>
+    <!-- 评论插件 -->
+    <!-- 来必力City版安装代码 -->
+
+<!-- City版安装代码已完成 -->
+    
+    
+    <!-- partial('_partial/comment/changyan') -->
+    <!--PC版-->
+
+
+    
+    
+
+    <!-- 评论 -->
+</main>
+            <!-- profile -->
+            
+        </div>
+        <footer class="footer footer-unloaded">
+    <!-- social  -->
+    
+    <div class="social">
+        
+    
+        
+            
+                <a href="mailto:12345@qq.com" class="iconfont-archer email" title=email ></a>
+            
+        
+    
+        
+            
+                <a href="//github.com/fi3ework" class="iconfont-archer github" target="_blank" title=github></a>
+            
+        
+    
+        
+            
+                <span class="iconfont-archer wechat" title=wechat>
+                  
+                  <img class="profile-qr" src="/assets/example_qr.png" />
+                </span>
+            
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+
+    </div>
+    
+    <!-- powered by Hexo  -->
+    <div class="copyright">
+        <span id="hexo-power">Powered by <a href="https://hexo.io/" target="_blank">Hexo</a></span><span class="iconfont-archer power">&#xe635;</span><span id="theme-info">theme <a href="https://github.com/fi3ework/hexo-theme-archer" target="_blank">Archer</a></span>
+    </div>
+    <!-- 不蒜子  -->
+    
+    <div class="busuanzi-container">
+    
+     
+    <span id="busuanzi_container_site_pv">PV: <span id="busuanzi_value_site_pv"></span> :)</span>
+    
+    </div>
+    
+</footer>
+    </div>
+    <!-- toc -->
+    
+    <div class="toc-wrapper" style=
+    
+
+
+
+
+
+
+
+top:50vh;
+
+    >
+        <div class="toc-catalog">
+            <span class="iconfont-archer catalog-icon">&#xe613;</span><span>CATALOG</span>
+        </div>
+        <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#web安全简单说"><span class="toc-number">1.</span> <span class="toc-text">web安全简单说</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#知识简介"><span class="toc-number">2.</span> <span class="toc-text">知识简介</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#入门指南"><span class="toc-number">3.</span> <span class="toc-text">入门指南</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#前端语言"><span class="toc-number">3.1.</span> <span class="toc-text">前端语言</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#后端语言PHP"><span class="toc-number">3.2.</span> <span class="toc-text">后端语言PHP</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#MySQL"><span class="toc-number">3.3.</span> <span class="toc-text">MySQL</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#HTTP协议"><span class="toc-number">3.4.</span> <span class="toc-text">HTTP协议</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#Linux学习"><span class="toc-number">3.5.</span> <span class="toc-text">Linux学习</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#常见漏洞"><span class="toc-number">4.</span> <span class="toc-text">常见漏洞</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#SQL注入"><span class="toc-number">4.1.</span> <span class="toc-text">SQL注入</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#文件包含漏洞"><span class="toc-number">4.2.</span> <span class="toc-text">文件包含漏洞</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#命令执行，代码执行"><span class="toc-number">4.3.</span> <span class="toc-text">命令执行，代码执行</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#文件上传漏洞"><span class="toc-number">4.4.</span> <span class="toc-text">文件上传漏洞</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#XSS"><span class="toc-number">4.5.</span> <span class="toc-text">XSS</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#CSRF"><span class="toc-number">4.6.</span> <span class="toc-text">CSRF</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#SSRF"><span class="toc-number">4.7.</span> <span class="toc-text">SSRF</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#XXE"><span class="toc-number">4.8.</span> <span class="toc-text">XXE</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#反序列化"><span class="toc-number">4.9.</span> <span class="toc-text">反序列化</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#SSTI模板注入"><span class="toc-number">4.10.</span> <span class="toc-text">SSTI模板注入</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#变量覆盖"><span class="toc-number">4.11.</span> <span class="toc-text">变量覆盖</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#论PHP的常见漏洞"><span class="toc-number">4.12.</span> <span class="toc-text">论PHP的常见漏洞</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#大量的CTF练习"><span class="toc-number">4.13.</span> <span class="toc-text">大量的CTF练习</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#推荐靶场"><span class="toc-number">5.</span> <span class="toc-text">推荐靶场</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#DVWA"><span class="toc-number">5.1.</span> <span class="toc-text">DVWA</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#Bugku"><span class="toc-number">5.2.</span> <span class="toc-text">Bugku</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#攻防世界"><span class="toc-number">5.3.</span> <span class="toc-text">攻防世界</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#工具学习"><span class="toc-number">6.</span> <span class="toc-text">工具学习</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#sqlmap"><span class="toc-number">6.1.</span> <span class="toc-text">sqlmap</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#burpsuite"><span class="toc-number">6.2.</span> <span class="toc-text">burpsuite</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#其余优质学习资料"><span class="toc-number">7.</span> <span class="toc-text">其余优质学习资料</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#推荐web安全微信公众号"><span class="toc-number">8.</span> <span class="toc-text">推荐web安全微信公众号</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#推荐知识星球"><span class="toc-number">9.</span> <span class="toc-text">推荐知识星球</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#推荐学习平台"><span class="toc-number">10.</span> <span class="toc-text">推荐学习平台</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#PDF分享"><span class="toc-number">11.</span> <span class="toc-text">PDF分享</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#说在最后"><span class="toc-number">12.</span> <span class="toc-text">说在最后</span></a></li></ol>
+    </div>
+    
+    <div class="back-top iconfont-archer">&#xe639;</div>
+    <div class="sidebar sidebar-hide">
+    <ul class="sidebar-tabs sidebar-tabs-active-0">
+        <li class="sidebar-tab-archives"><span class="iconfont-archer">&#xe67d;</span><span class="tab-name">Archive</span></li>
+        <li class="sidebar-tab-tags"><span class="iconfont-archer">&#xe61b;</span><span class="tab-name">Tag</span></li>
+        <li class="sidebar-tab-categories"><span class="iconfont-archer">&#xe666;</span><span class="tab-name">Cate</span></li>
+    </ul>
+    <div class="sidebar-content sidebar-content-show-archive">
+          <div class="sidebar-panel-archives">
+    <!-- 在ejs中将archive按照时间排序 -->
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    <div class="total-and-search">
+        <div class="total-archive">
+        Total : 3
+        </div>
+        <!-- search  -->
+        
+    </div>
+    
+    <div class="post-archive">
+    
+    
+    
+    
+    <div class="archive-year"> Invalid date </div>
+    <ul class="year-list">
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">Invalid date</span><a class="archive-post-title" href= "/2019/07/27/hello-world/" >Hello World</a>
+        </li>
+    
+    
+    
+    
+    
+        </ul>
+    
+    <div class="archive-year"> 2019 </div>
+    <ul class="year-list">
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">07/27</span><a class="archive-post-title" href= "/2019/07/27/paper/" >paper</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">07/27</span><a class="archive-post-title" href= "/2019/07/27/web/" >Web渗透入门</a>
+        </li>
+    
+    </div>
+  </div>
+        <div class="sidebar-panel-tags">
+    <div class="sidebar-tags-name">
+    
+    </div>
+    <div class="iconfont-archer sidebar-tags-empty">&#xe678;</div>
+    <div class="tag-load-fail" style="display: none; color: #ccc; font-size: 0.6rem;">
+    缺失模块。<br/>
+    1、请确保node版本大于6.2<br/>
+    2、在博客根目录（注意不是archer根目录）执行以下命令：<br/>
+    <span style="color: #f75357; font-size: 1rem; line-height: 2rem;">npm i hexo-generator-json-content --save</span><br/>
+    3、在根目录_config.yml里添加配置：
+    <pre style="color: #787878; font-size: 0.6rem;">
+jsonContent:
+  meta: false
+  pages: false
+  posts:
+    title: true
+    date: true
+    path: true
+    text: false
+    raw: false
+    content: false
+    slug: false
+    updated: false
+    comments: false
+    link: false
+    permalink: false
+    excerpt: false
+    categories: true
+    tags: true</pre>
+    </div> 
+    <div class="sidebar-tags-list"></div>
+</div>
+        <div class="sidebar-panel-categories">
+    <div class="sidebar-categories-name">
+    
+    </div>
+    <div class="iconfont-archer sidebar-categories-empty">&#xe678;</div>
+    <div class="sidebar-categories-list"></div>
+</div>
+    </div>
+</div> 
+    <script>
+    var siteMeta = {
+        root: "/",
+        author: "John Doe"
+    }
+</script>
+    <!-- CDN failover -->
+    <script src="https://cdn.jsdelivr.net/npm/jquery@3.3.1/dist/jquery.min.js"></script>
+    <script type="text/javascript">
+        if (typeof window.$ === 'undefined')
+        {
+            console.warn('jquery load from jsdelivr failed, will load local script')
+            document.write('<script src="/lib/jquery.min.js">\x3C/script>')
+        }
+    </script>
+    <script src="/scripts/main.js"></script>
+    <!-- algolia -->
+    
+    <!-- busuanzi  -->
+    
+    <script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+    
+    <!-- CNZZ  -->
+    
+    </div>
+    <!-- async load share.js -->
+    
+        <script src="/scripts/share.js" async></script>    
+     
+    </body>
+</html>
+
+
